@@ -2,4 +2,54 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 // bower:scss
 @import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
-
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+  margin: 0;
+  .container {
+    max-width: 730px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    
+    .panel-heading {
+      padding: 6px 10px 0px 0px;
+    }
+    table  a {
+      padding: 5px 20px 5px 10px;
+      cursor: pointer;
+    }
+     
+    .footer {
+      padding-top: 19px;
+      color: #777;
+      border-top: 1px solid #e5e5e5;
+      padding-right: 0;
+      padding-left: 0;
+      bottom: -50px;
+      margin-bottom: 50px;
+      position: fixed;
+      width: 730px;
+    }
+    
+    .header {
+       margin-bottom: 30px;
+       border-bottom: 1px solid #e5e5e5;
+       padding-right: 0;
+       padding-left: 0;
+       
+       h3 {
+        padding-bottom: 19px;
+        margin-top: 0;
+        margin-bottom: 0;
+        line-height: 40px;
+      }
+    }
+  }
+}
