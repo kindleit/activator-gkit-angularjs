@@ -22,3 +22,6 @@ angular
 
     $scope.delete = (todo) ->
       Todo.delete _id: todo._id, -> _.pull $scope.todos, todo
+      
+    $scope.update = (todo, ss) -> 
+      Todo.update todo
