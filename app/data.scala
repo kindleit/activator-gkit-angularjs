@@ -1,12 +1,14 @@
 package app
 
 import reactivemongo.bson.BSONObjectID
+import org.joda.time.DateTime
 
 case class Todo
   (
     _id             : BSONObjectID
   , description     : String
   , completed       : Boolean
+  , createdAt       : DateTime
   )
 
 case class NewTodo

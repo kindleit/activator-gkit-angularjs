@@ -20,9 +20,19 @@
 	<table class="table table-striped table-hover table-condensed ">
 	 <tbody>
 	  <tr ng-repeat="todo in todos">
-	    <td class="col-sm-1"><input type="checkbox" ng-change="update(todo)" ng-model="todo.completed" ngTrueValue /> </td>
-	    <td ng-class="(todo.completed) ? 'completed' : ''">{{todo.description}}</td>
-	    <td><a ng-click="delete(todo)" class="pull-right"> <i class="glyphicon glyphicon-remove-circle"></i></a></td>
+	    <td class="col-sm-1"><input type="checkbox" ng-change="update(todo, 'completed')" ng-model="todo.completed" ngTrueValue /> </td>
+	    <td ng-class="(todo.completed) ? 'completed' : ''" >
+	      <p popover="{{ creationAt(todo) }}"  
+	         popover-trigger="mouseenter"  
+	         popover-placement="right" 
+	         editable-text="todo.description" 
+	         onaftersave="update(todo, 'description')"
+	         onbeforesave="checkDescription($data)"
+	         buttons="no"
+	         title="press Enter to save"
+	         >{{ todo.description || 'empty' }}</p>
+	    </td>
+	    <td class="col-sm-1"><a ng-click="delete(todo)" class="pull-right"> <i class="glyphicon glyphicon-remove-circle"></i></a></td>
 	  </tr>
 	 </tbody>
 	</table>

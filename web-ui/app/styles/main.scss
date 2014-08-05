@@ -17,6 +17,7 @@ body {
   color: #333;
   background-color: #fff;
   margin: 0;
+  
   .container {
     max-width: 730px;
     padding-right: 15px;
@@ -27,17 +28,25 @@ body {
     .panel-heading {
       padding: 6px 10px 0px 0px;
     }
+  
     table {
       a {
-        padding: 5px 20px 5px 10px;
+        padding: 5px 20px 15px 10px;
         cursor: pointer;
       }
       .completed {
         text-decoration: line-through;
         font-style: italic;
       }
-    }
-     
+      form, div, input[type='text'] {
+        width: 100%;
+      }
+      p {
+        text-decoration: none;
+        color: black; 
+        border-bottom:none;
+      }
+    }    
     .footer {
       padding-top: 19px;
       color: #777;

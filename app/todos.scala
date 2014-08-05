@@ -1,21 +1,16 @@
 package app
 
 import gkit.mongo._
-
 import play.api.mvc.Result
-
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-
 import play.modules.gresource.Http
 import play.modules.gresource.Http._
 import play.modules.gresource.mongo._
-
 import reactivemongo.bson.BSONObjectID
-
 import scalaz._
 import scalaz.Scalaz._
-
 import shapeless._
+import org.joda.time.DateTime
 
 object Todos extends TodoFunctions {
 
@@ -68,7 +63,8 @@ trait TodoFunctions extends QueryFunctions {
     Todo(
       _id         = BSONObjectID.generate,
       description = ni.description,
-      completed   = false)
+      completed   = false,
+      createdAt   = DateTime.now)
 
   def mkUpdateQry(id: BSONObjectID, ui: UpdateTodo) =
     UpdateQuery(
