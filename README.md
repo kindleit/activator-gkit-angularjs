@@ -10,7 +10,7 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 
 ## How to run the code
 
-1. Open a terminal and run:
+1. Open a console & run:
 
 ```bash
 
@@ -22,13 +22,13 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 ```
 ---
 
-2. Open terminal and run: 
+2. Open a console & run: 
 
 ```bash
 ~$ cd todo-gkit-angularjs/web-ui/
-~$ npm install -g yo              [documentation](http://yeoman.io/)
-~$ npm install -g grunt-cli       [documentation](http://gruntjs.com/getting-started)
-~$ npm install -g bower           [documentation](http://bower.io/)
+~$ npm install -g yo              [documentation] (http://yeoman.io/)
+~$ npm install -g grunt-cli       [documentation] (http://gruntjs.com/getting-started)
+~$ npm install -g bower           [documentation] (http://bower.io/)
 ~$ bower update
 ~$ grunt serve
 
