@@ -7,9 +7,7 @@ In order to run todo sample add, you have to follow these steps.:*
 3. [Nodejs](http://nodejs.org/download/)
 4. [Git](http://git-scm.com/book/en/Getting-Started-Installing-Git])
 
-### Run
-
-Open Terminal
+* Open Terminal
 
 ```bash
 
@@ -20,7 +18,7 @@ Open Terminal
 
 ```
 
-Open Terminal
+* Open Terminal
 
 ```bash
 ~$ cd todo-gkit-angularjs/web-ui/
