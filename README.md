@@ -1,6 +1,6 @@
 In order to run **todo-gkit-angularjs** app, follow these steps:
 
-#### Install:
+## Install
 
 1. [Java](https://www.java.com/en/download/help/download_options.xml)
 2. [Play Framework](http://www.playframework.com/download)
@@ -8,9 +8,9 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 4. [Git](http://git-scm.com/book/en/Getting-Started-Installing-Git])
 
 
-#### Run the code:
+## How to run the code
 
-* Open Terminal
+1. Open a terminal and run:
 
 ```bash
 
@@ -21,7 +21,7 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 
 ```
 
-* Open Terminal
+2. Open terminal and run: 
 
 ```bash
 ~$ cd todo-gkit-angularjs/web-ui/
