@@ -1,4 +1,4 @@
-In order to run *todo-gkit-angularjs* app, follow these steps:
+In order to run **todo-gkit-angularjs_** app, follow these steps:
 
 #### Install:
 
