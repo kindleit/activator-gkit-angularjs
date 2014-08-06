@@ -24,9 +24,9 @@ Open Terminal
 
 ```bash
 ~$ cd todo-gkit-angularjs/web-ui/
-~$ npm install -g yo              [documentation][http://yeoman.io/]
-~$ npm install -g grunt-cli       [documentation][http://gruntjs.com/getting-started]
-~$ npm install -g bower           [documentation][http://bower.io/]
+~$ npm install -g yo              [documentation](http://yeoman.io/)
+~$ npm install -g grunt-cli       [documentation](http://gruntjs.com/getting-started)
+~$ npm install -g bower           [documentation](http://bower.io/)
 ~$ bower update
 ~$ grunt serve
 
