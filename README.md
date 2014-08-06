@@ -32,4 +32,7 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 ~$ bower update
 ~$ grunt serve
 
+<big><pre>
+**void** Click ([**Keycode**](#keycode) key) **const**
+</pre></big>
 ```
