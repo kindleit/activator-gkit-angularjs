@@ -26,13 +26,17 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 
 ```bash
 ~$ cd todo-gkit-angularjs/web-ui/
-~$ npm install -g yo              <pre>[documentation](http://yeoman.io/)</pre>
-~$ npm install -g grunt-cli       [documentation](http://gruntjs.com/getting-started)
-~$ npm install -g bower           [documentation](http://bower.io/)
+~$ npm install -g yo              
+~$ npm install -g grunt-cli      
+~$ npm install -g bower           
 ~$ bower update
 ~$ grunt serve
 
-<big><pre>
-**void** Click ([**Keycode**](#keycode) key) **const**
-</pre></big>
 ```
+
+## External Documentation
+
+1. [yeoman](http://yeoman.io/)
+2. [grunt](http://gruntjs.com/getting-started)
+3. [bower](http://bower.io/)
+
