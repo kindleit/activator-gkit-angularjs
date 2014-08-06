@@ -20,6 +20,7 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 ~$ run
 
 ```
+---
 
 2. Open terminal and run: 
 
