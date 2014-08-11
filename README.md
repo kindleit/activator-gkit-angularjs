@@ -40,3 +40,4 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 2. [grunt](http://gruntjs.com/getting-started)
 3. [bower](http://bower.io/)
 
+## [Demo](http://todo-gkit-angularjs.herokuapp.com/)
