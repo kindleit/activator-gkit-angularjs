@@ -41,3 +41,5 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 3. [bower](http://bower.io/)
 
 ## [Demo](http://todo-gkit-angularjs.herokuapp.com/)
+
+![alt text](https://github.com/kindleit/todo-gkit-angularjs/blob/fbencosme/tutorial/todo.png "Demo")
