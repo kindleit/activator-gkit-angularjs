@@ -20,6 +20,7 @@ case class UpdateTodo
   (
     description     : Option[String]
   , completed       : Option[Boolean]
+  , createdAt       : DateTime = DateTime.now  
   )
 
 case class FindParams

@@ -1,5 +1,4 @@
 <div class="well well-lg">
-  <h1>todos</h1>
   <form ng-submit="save(todo)">
    <div class="input-group input-group-lg">
      <input ng-model="todo.description" required="" type="text" class="form-control" placeholder="What needs to be done?">
@@ -24,6 +23,7 @@
 	    <td ng-class="(todo.completed) ? 'completed' : ''" >
 	      <p popover="{{ creationAt(todo) }}"  
 	         popover-trigger="mouseenter"  
+	         popover-title="Last updated"
 	         popover-placement="right" 
 	         editable-text="todo.description" 
 	         onaftersave="update(todo, 'description')"
