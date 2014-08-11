@@ -1,3 +1,7 @@
+import com.typesafe.sbt.SbtStartScript
+
+seq(StartScriptPlugin.startScriptForClassesSettings: _*)
+
 name := "todo-gkit-angularjs"
 
 version := "0.1.0-SNAPSHOT"
