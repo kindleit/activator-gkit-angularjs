@@ -1,7 +1,3 @@
-import com.typesafe.sbt.SbtStartScript
-
-seq(StartScriptPlugin.startScriptForClassesSettings: _*)
-
 name := "todo-gkit-angularjs"
 
 version := "0.1.0-SNAPSHOT"
@@ -18,4 +14,6 @@ resolvers ++= Seq(
   "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/",
   "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/")
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+resolvers += Classpaths.typesafeResolver
+
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
