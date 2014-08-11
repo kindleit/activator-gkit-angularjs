@@ -8,11 +8,11 @@ module.exports = function (grunt) {
 
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'dist'
+    dist: '../public'
   };
 
-  proxyHost = grunt.option('proxy-host') || 'localhost'
-  proxyPort = grunt.option('proxy-port') || '9000'
+  var proxyHost = grunt.option('proxy-host') || 'localhost'
+  var proxyPort = grunt.option('proxy-port') || '9000'
   
   grunt.initConfig({
 
@@ -60,9 +60,9 @@ module.exports = function (grunt) {
       proxies: [
         {
           context: '/api',
-          host: proxyHost
-          port: proxyPort
-          https: false
+          host: proxyHost,
+          port: proxyPort,
+          https: false,
           changeOrigin: false
         }
       ],
