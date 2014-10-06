@@ -29,6 +29,7 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 ~$ npm install -g yo              
 ~$ npm install -g grunt-cli      
 ~$ npm install -g bower           
+~$ npm update
 ~$ bower update
 ~$ grunt serve
 
