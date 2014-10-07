@@ -19,4 +19,8 @@ resolvers ++= Seq(
 
 gruntSettings
 
+gruntResourcesDirectory in Compile := Some(file("target/webui"))
+
+gruntResourcesClasspath in Compile := file("web-ui")
+
 lazy val root = (project in file(".")).enablePlugins(PlayScala)

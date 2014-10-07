@@ -7,28 +7,24 @@ module.exports = function (grunt) {
   require('time-grunt')(grunt);
 
   var appConfig = {
-    app: require('./bower.json').appPath || 'app',
-    dist: '../public'
+    app: 'web-ui/app',
+    dist: 'target/webui'
   };
 
-  var proxyHost = grunt.option('proxy-host') || 'localhost'
-  var proxyPort = grunt.option('proxy-port') || '9000'
-  
+  var proxyHost = grunt.option('proxy-host') || 'localhost';
+  var proxyPort = grunt.option('proxy-port') || '9000';
+
   grunt.initConfig({
 
     yeoman: appConfig,
 
     watch: {
-      bower: {
-        files: ['bower.json'],
-        tasks: ['wiredep']
-      },
       coffee: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'],
         tasks: ['newer:coffee:dist']
       },
       coffeeTest: {
-        files: ['test/spec/{,*/}*.{coffee,litcoffee,coffee.md}'],
+        files: ['web-ui/test/spec/{,*/}*.{coffee,litcoffee,coffee.md}'],
         tasks: ['newer:coffee:test', 'karma']
       },
       compass: {
@@ -74,8 +70,8 @@ module.exports = function (grunt) {
               require('grunt-connect-proxy/lib/utils').proxyRequest,
               connect.static('.tmp'),
               connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
+                '/target/bower_components',
+                connect.static('./target/bower_components')
               ),
               connect.static(appConfig.app)
             ];
@@ -90,8 +86,8 @@ module.exports = function (grunt) {
               connect.static('.tmp'),
               connect.static('test'),
               connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
+                '/target/bower_components',
+                connect.static('./target/bower_components')
               ),
               connect.static(appConfig.app)
             ];
@@ -177,7 +173,7 @@ module.exports = function (grunt) {
       test: {
         files: [{
           expand: true,
-          cwd: 'test/spec',
+          cwd: 'web-ui/test/spec',
           src: '{,*/}*.coffee',
           dest: '.tmp/spec',
           ext: '.js'
@@ -193,7 +189,7 @@ module.exports = function (grunt) {
         imagesDir: '<%= yeoman.app %>/images',
         javascriptsDir: '<%= yeoman.app %>/scripts',
         fontsDir: '<%= yeoman.app %>/styles/fonts',
-        importPath: './bower_components',
+        importPath: './target/bower_components',
         httpImagesPath: '/images',
         httpGeneratedImagesPath: '/images/generated',
         httpFontsPath: '/styles/fonts',
@@ -299,12 +295,6 @@ module.exports = function (grunt) {
       }
     },
 
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
-    },
-
     copy: {
       dist: {
         files: [{
@@ -328,7 +318,7 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.',
-          src: 'bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/*',
+          src: 'target/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/*',
           dest: '<%= yeoman.dist %>'
         }]
       },
@@ -359,7 +349,7 @@ module.exports = function (grunt) {
 
     karma: {
       unit: {
-        configFile: 'test/karma.conf.coffee',
+        configFile: 'web-ui/test/karma.conf.coffee',
         singleRun: true
       }
     }
@@ -404,7 +394,6 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    'cdnify',
     'cssmin',
     'uglify',
     'filerev',

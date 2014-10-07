@@ -1,3 +1,4 @@
 {
-  "directory": "bower_components"
+  "cwd": "web-ui/app",
+  "directory": "../../target/bower_components"
 }

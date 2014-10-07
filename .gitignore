@@ -15,10 +15,8 @@ tmp
 /.settings
 /.target
 node_modules
-dist
 .tmp
 .sass-cache
-bower_components
 target
 .target
-/project/activator*.sbt
+activator*.sbt
