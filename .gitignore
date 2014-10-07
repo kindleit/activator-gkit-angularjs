@@ -3,9 +3,7 @@
 .idea_modules
 *.iml
 *.orig
-target
 tmp
-
 /bin
 /.cache
 /.classpath
@@ -16,3 +14,11 @@ tmp
 /RUNNING_PID
 /.settings
 /.target
+node_modules
+dist
+.tmp
+.sass-cache
+bower_components
+target
+.target
+/project/activator*.sbt
