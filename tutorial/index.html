@@ -1,0 +1,127 @@
+<html lang="en">
+<head><title>GKit AngularJS Activator Template</title></head>
+<body>
+<article>
+  <header>
+    <h1>GKit AngularJS Activator Template</h1>
+
+    <p>GKit is a set of combinator libraries which can ultimately be turned
+    into powerful, composable REST servers. It does this by following the
+    principals behind 
+    <a href="http://research.microsoft.com/en-us/um/people/simonpj/papers/hmap/">scrap your boilerplate</a> 
+    and
+    <a href="http://www.cs.rutgers.edu/%7Eccshan/cs252/usage.pdf">higher rank polymorphism</a> by making extensive use of
+    <a href="https://github.com/milessabin/shapeless">Shapeless</a> and <a href="https://github.com/scalaz/scalaz">scalaz</a></p>
+
+    <p>The point of GKit is to eliminate as much boilerplate as possible while
+    at the same time allowing for powerful extension and composition points in
+    the handling of stateless http requests.</p>
+  </header>
+  <section>
+    <p>You can quickly write a RESTful resource with a find query with the following code:</p>
+    <div class="highlight highlight-scala"><pre><span class="k">import</span> <span class="nn">gkit.mongo._</span>
+<span class="k">import</span> <span class="nn">play.api.Play.current</span>
+<span class="k">import</span> <span class="nn">play.api.libs.concurrent.Execution.Implicits.defaultContext</span>
+<span class="k">import</span> <span class="nn">play.api.libs.json._</span>
+<span class="k">import</span> <span class="nn">play.api.mvc.Result</span>
+<span class="k">import</span> <span class="nn">play.modules.gjson._</span>
+<span class="k">import</span> <span class="nn">play.modules.gresource.Http</span>
+<span class="k">import</span> <span class="nn">play.modules.gresource.Http._</span>
+<span class="k">import</span> <span class="nn">play.modules.gresource.mongo._</span>
+<span class="k">import</span> <span class="nn">reactivemongo.bson.</span><span class="o">{</span><span class="nc">BSONObjectID</span><span class="o">,</span> <span class="nc">BSONDocument</span><span class="o">}</span>
+<span class="k">import</span> <span class="nn">scala.concurrent.Future</span>
+<span class="k">import</span> <span class="nn">scalaz.Scalaz._</span>
+<span class="k">import</span> <span class="nn">scalaz._</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Todo</span>
+  <span class="o">(</span>
+    <span class="nc">_id</span>             <span class="k">:</span> <span class="kt">BSONObjectID</span>
+  <span class="o">,</span> <span class="n">description</span>     <span class="k">:</span> <span class="kt">String</span>
+  <span class="o">,</span> <span class="n">completed</span>       <span class="k">:</span> <span class="kt">Boolean</span>
+  <span class="o">)</span>
+
+<span class="k">case</span> <span class="k">class</span> <span class="nc">FindParams</span>
+  <span class="o">(</span>
+    <span class="n">sortby</span>          <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span>
+  <span class="o">,</span> <span class="n">asc</span>             <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Boolean</span><span class="o">]</span>
+  <span class="o">)</span>
+
+<span class="k">object</span> <span class="nc">Todos</span> <span class="k">extends</span> <span class="nc">TodoFunctions</span> <span class="o">{</span>
+  <span class="k">lazy</span> <span class="k">val</span> <span class="n">httpApi</span> <span class="k">=</span> <span class="nc">Http</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="nc">Prefix</span><span class="o">)(</span><span class="n">httpFind</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">trait</span> <span class="nc">TodoFunctions</span> <span class="k">extends</span> <span class="nc">QueryFunctions</span> <span class="o">{</span>
+
+  <span class="k">val</span> <span class="n">cname</span> <span class="k">=</span> <span class="s">"todos"</span>
+
+  <span class="k">def</span> <span class="n">httpFind</span><span class="k">:</span> <span class="kt">Kleisli</span><span class="o">[</span><span class="kt">EFE</span>, <span class="kt">AReq</span>, <span class="kt">Result</span><span class="o">]</span> <span class="k">=</span>
+    <span class="n">paramsFromReq</span><span class="o">[</span><span class="kt">FindParams</span><span class="o">].</span><span class="n">apply</span> <span class="o">&gt;&gt;&gt;</span>
+    <span class="n">liftK</span><span class="o">(</span><span class="n">mkFindQry</span> <span class="k">_</span> <span class="o">&gt;&gt;&gt;</span> <span class="n">find</span><span class="o">[</span><span class="kt">Todo</span><span class="o">](</span><span class="n">cname</span><span class="o">))</span> <span class="o">&gt;&gt;&gt;</span>
+    <span class="n">toJsonResult</span>
+
+  <span class="k">def</span> <span class="n">mkFindQry</span><span class="o">(</span><span class="n">fp</span><span class="k">:</span> <span class="kt">FindParams</span><span class="o">)</span> <span class="k">=</span>
+    <span class="nc">FindQuery</span><span class="o">(</span>
+      <span class="n">query</span>    <span class="k">=</span> <span class="nc">EmptyQ</span><span class="o">,</span>
+      <span class="n">proj</span>     <span class="k">=</span> <span class="nc">EmptyQ</span><span class="o">,</span>
+      <span class="n">defaults</span> <span class="k">=</span> <span class="n">fp</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="k">trait</span> <span class="nc">QueryFunctions</span> <span class="k">extends</span> <span class="nc">JSONPicklerInstances</span> <span class="o">{</span>
+
+  <span class="k">case</span> <span class="k">class</span> <span class="nc">FindQuery</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">query</span><span class="k">:</span> <span class="kt">A</span><span class="o">,</span> <span class="n">proj</span><span class="k">:</span> <span class="kt">B</span><span class="o">,</span> <span class="n">defaults</span><span class="k">:</span> <span class="kt">FindParams</span><span class="o">)</span>
+
+  <span class="k">class</span> <span class="nc">Find</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="n">apply</span><span class="o">[</span><span class="kt">B</span>, <span class="kt">C</span><span class="o">](</span><span class="n">cname</span><span class="k">:</span> <span class="kt">String</span><span class="o">)(</span><span class="n">fq</span><span class="k">:</span> <span class="kt">FindQuery</span><span class="o">[</span><span class="kt">B</span>, <span class="kt">C</span><span class="o">])</span>
+      <span class="o">(</span><span class="k">implicit</span> <span class="nc">BP1</span><span class="k">:</span> <span class="kt">BSONPickler</span><span class="o">[</span><span class="kt">A</span><span class="o">],</span> <span class="nc">BP2</span><span class="k">:</span> <span class="kt">BSONPickler</span><span class="o">[</span><span class="kt">B</span><span class="o">],</span> <span class="nc">BP3</span><span class="k">:</span> <span class="kt">BSONPickler</span><span class="o">[</span><span class="kt">C</span><span class="o">])</span><span class="k">:</span> <span class="kt">Future</span><span class="o">[</span><span class="kt">Error</span> <span class="kt">\/</span> <span class="kt">List</span><span class="o">[</span><span class="kt">A</span><span class="o">]]</span> <span class="k">=</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="n">sortby</span> <span class="k">=</span> <span class="n">fq</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">sortby</span> <span class="o">|</span> <span class="s">"_id"</span>
+      <span class="k">val</span> <span class="n">asc</span> <span class="k">=</span> <span class="n">fq</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">asc</span> <span class="o">|</span> <span class="kc">true</span>
+      <span class="k">val</span> <span class="n">sdoc</span> <span class="k">=</span> <span class="nc">BSONDocument</span><span class="o">(</span><span class="n">sortby</span> <span class="o">-&gt;</span> <span class="n">asc</span><span class="o">.</span><span class="n">fold</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">))</span>
+      <span class="k">val</span> <span class="n">qb</span> <span class="k">=</span> <span class="n">dbe</span><span class="o">.</span><span class="n">collection</span><span class="o">(</span><span class="n">cname</span><span class="o">).</span><span class="n">find</span><span class="o">(</span><span class="n">fq</span><span class="o">.</span><span class="n">query</span><span class="o">,</span> <span class="n">fq</span><span class="o">.</span><span class="n">proj</span><span class="o">).</span><span class="n">sort</span><span class="o">(</span><span class="n">sdoc</span><span class="o">)</span>
+      <span class="n">qb</span><span class="o">.</span><span class="n">cursor</span><span class="o">[</span><span class="kt">A</span><span class="o">].</span><span class="n">collect</span><span class="o">[</span><span class="kt">List</span><span class="o">]().</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">leftMap</span><span class="o">(</span><span class="n">E500</span><span class="o">(</span><span class="k">_</span><span class="o">)</span><span class="k">:</span><span class="kt">Error</span><span class="o">))</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="k">def</span> <span class="n">find</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Find</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span>
+
+  <span class="k">def</span> <span class="n">dbe</span> <span class="k">=</span> <span class="nc">GMongoPlugin</span><span class="o">.</span><span class="n">dbEnv</span>
+<span class="o">}</span>
+
+<span class="k">trait</span> <span class="nc">JSONPicklerInstances</span> <span class="o">{</span>
+
+  <span class="k">implicit</span> <span class="k">def</span> <span class="nc">BSONObjectIDPickler</span><span class="k">:</span> <span class="kt">JSONPickler</span><span class="o">[</span><span class="kt">BSONObjectID</span><span class="o">]</span> <span class="k">=</span>
+    <span class="k">new</span> <span class="nc">JSONPickler</span><span class="o">[</span><span class="kt">BSONObjectID</span><span class="o">]</span> <span class="o">{</span>
+      <span class="k">def</span> <span class="n">pickle</span><span class="o">(</span><span class="n">boid</span><span class="k">:</span> <span class="kt">BSONObjectID</span><span class="o">)</span><span class="k">:</span> <span class="kt">JsValue</span> <span class="o">=</span> <span class="nc">JsString</span><span class="o">(</span><span class="n">boid</span><span class="o">.</span><span class="n">stringify</span><span class="o">)</span>
+
+      <span class="k">def</span> <span class="n">unpickle</span><span class="o">(</span><span class="n">v</span><span class="k">:</span> <span class="kt">JsValue</span><span class="o">,</span> <span class="n">path</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span><span class="k">:</span> <span class="kt">String</span> <span class="kt">\/</span> <span class="kt">BSONObjectID</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="k">def</span> <span class="n">parse</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span>
+          <span class="k">try</span> <span class="o">{</span> <span class="nc">BSONObjectID</span><span class="o">(</span><span class="n">s</span><span class="o">).</span><span class="n">right</span> <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span> <span class="k">case</span> <span class="n">e</span><span class="k">:</span> <span class="kt">Throwable</span> <span class="o">=&gt;</span> <span class="n">e</span><span class="o">.</span><span class="n">getMessage</span><span class="o">.</span><span class="n">left</span> <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">{</span>
+          <span class="n">js</span> <span class="k">&lt;-</span> <span class="n">typecheck</span><span class="o">[</span><span class="kt">JsString</span><span class="o">](</span><span class="n">v</span><span class="o">,</span> <span class="n">path</span><span class="o">)(</span><span class="n">identity</span><span class="o">)</span>
+          <span class="n">id</span> <span class="k">&lt;-</span> <span class="n">parse</span><span class="o">(</span><span class="n">js</span><span class="o">.</span><span class="n">value</span><span class="o">).</span><span class="n">leftMap</span><span class="o">(</span><span class="n">e</span> <span class="k">=&gt;</span> <span class="n">s</span><span class="s">"""error at: `${path.mkString(".")}`: $e"""</span><span class="o">)</span>
+        <span class="o">}</span> <span class="k">yield</span> <span class="n">id</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+  </section>
+  <section>
+    <h3>Work in progress</h3>
+    <p>These libraries are still very much a work in progress and some of the API is not finalized</p>
+    <p>We definitely need some help, and here are our planned features</p>
+    <ul class="task-list">
+      <li>Some libraries are missing tests</li>
+      <li>Finishing the SQL combinators</li>
+      <li>Adding support for the new Akka http</li>
+    </ul>
+  </section>
+  <footer>
+    <h3>More information</h3>
+    <p>You can find more information for this template
+    <a href="https://github.com/kindleit/activator-gkit-angularjs">here</a>
+    or gkit itself
+    <a href="https://github.com/kindleit/gkit">here</a>
+  </footer>
+</article>
+</body>
+</html>
