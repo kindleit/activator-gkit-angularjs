@@ -363,6 +363,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'bower-install',
       'wiredep',
       'concurrent:server',
       'configureProxies:server',
@@ -387,6 +388,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
+    'bower-install',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
