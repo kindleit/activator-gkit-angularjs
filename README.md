@@ -2,6 +2,8 @@ In order to run **todo-gkit-angularjs** app, follow these steps:
 
 ## Install
 
+[![Join the chat at https://gitter.im/kindleit/activator-gkit-angularjs](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kindleit/activator-gkit-angularjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 1. [Java](https://www.java.com/en/download/help/download_options.xml)
 2. [Play Framework](http://www.playframework.com/download)
 3. [Nodejs](http://nodejs.org/download/)
